@@ -1,0 +1,84 @@
+
+http://192.168.14.50/cl-vtr/cl-vtr-ws-soap/wikis/utilizar-selenium-para-testing-automatico
+
+
+Utilizar selenium para testing automatico
+Last edited by David Martinez 4 months ago
+Page history
+Se necesita al menos Python 2.6
+
+Instalar selenium usando pip
+
+pip install -U selenium
+
+luego se debe descargar y descomprimir el webdrigver a utilizar
+
+Chrome: https://sites.google.com/a/chromium.org/chromedriver/downloads
+Edge: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+Firefox: https://github.com/mozilla/geckodriver/releases
+Safari: ttps://webkit.org/blog/6900/webdriver-support-in-safari-10/
+y pegarlo en alguna de estas ubicaciones
+
+/usr/local/bin
+/usr/bin 
+Se puede utilizar el siguiente script para comprobar que funciona correctamente
+
+#!/usr/local/bin/python
+# coding: latin-1
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import unittest
+
+class TestWebTituloPagina(unittest.TestCase):
+
+    def setUp(self):
+        # inicializa el webdriver
+        self.driver = webdriver.Firefox()
+        # agrega limpieza al salir
+        self.addCleanup(self.driver.quit)
+
+    def test_verificar_titulo_de_pagina(self):
+        # cambia la pagina web actual
+        self.driver.get('http://www.google.com')
+        # verifica que el primer texto se encuentre en otro
+        self.assertIn('Google', self.driver.title)
+
+    def test_buscar_en_google(self):
+        # cambia la pagina web actual
+        self.driver.get('http://www.google.com')
+        # identifica el campo de texto
+        elemInputText = self.driver.find_element_by_id("lst-ib")
+        # limpia el campo de texto
+        elemInputText.clear()
+        # agrega el texto
+        elemInputText.send_keys("zweicom")
+        # presiona la tecla enter
+        elemInputText.send_keys(Keys.RETURN)
+        # espera 1 segundo
+        self.driver.implicitly_wait(1)
+        # verifica que el primer texto se encuentre en otro
+        self.assertIn('zweicom', self.driver.current_url)
+Para mas informacion
+
+https://pypi.python.org/pypi/selenium
+http://selenium-python.readthedocs.io/installation.html
+
+
+tunel 
+
+ssh -t pamzwc@192.168.11.30  -p 3335 -L 2012:172.29.224.15:8080
+ssh -t pamzwc@192.168.11.30  -p 3333 -L 2012:172.21.74.23:8080
+
+pamzwc@192.168.11.30's password: 
+[pamzwc@Lmavpci02:~]$ ssh 172.29.224.15
+Last login: Sun May 28 16:54:12 2017
+[pamzwc@Lmavpdhb01:bin]$ ./add-user.sh
+
+What type of user do you wish to add? 
+ a) Management User (mgmt-users.properties) 
+ b) Application User (application-users.properties)
+(a): b
+
+En tu explorador:
+http://localhost:2012/pam-dashbuilder/dashbuilder.html
